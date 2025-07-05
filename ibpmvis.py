@@ -23,7 +23,7 @@ def readFlow(file):
         for field in node['data'].get('fields', []):
             if field.get('select'):
                 output[field['alias']] = {'formula': field.get('alias', '')}
-        nodes[str(node['id'])] = {
+        nodes[str(node['alias'])] = {
             'name': node.get('name'),
             'alias': node.get('alias'),
             'nodeType': node.get('node_type__alias'),
@@ -99,7 +99,8 @@ def main():
 
     try:
         file = json.load(open(args.input_file, 'r', encoding='utf-8'))
-        data = readFlow(file)
+        part = file['flow'][0]
+        data = readFlow(file['flow'][0])
     except Exception as e:
         print(f"Failed to load JSON: {e}", file=sys.stderr)
         sys.exit(1)
